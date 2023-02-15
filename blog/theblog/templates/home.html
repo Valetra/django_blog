@@ -2,12 +2,12 @@
 
 {% block content %}
 
-<h1>Articles</h1>
+<h2>Articles</h2>
 
 <ul>
 {% for post in object_list %}
     <li><a href="{% url 'article_detail' post.pk %}">{{ post.title }}</a> - {{ post.author.first_name }}
-        {{ post.author.last_name }} 
+        {{ post.author.last_name }} - {{ post.post_date }} - 
         <small>
             <a href="{% url 'update_post' post.pk %}">Edit</a> | 
             <a href="{% url 'delete_post' post.pk %}">Delete</a>
