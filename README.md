@@ -1,3 +1,3 @@
 # django_blog_new
-'Blog' is name of project
-'Theblog' is name of app
+'blog' is name of project, 
+'theblog' is name of app
