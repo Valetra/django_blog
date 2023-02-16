@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}Create a new category{% endblock %}
+
+{% block content %}
+
+  {% if user.is_authenticated %}
+    <h2>Create category</h2>
+    <br/>
+    <div class="mb-3">
+      <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="btn btn-secondary">Create category</button>
+      </form>
+    </div>
+  {% else %}
+    You have no permission to create a category.<br/>
+    You should <a href="{% url 'register' %}">register</a> or <a href="{% url 'login' %}">login</a> if you have an account.
+  {% endif %}
+
+{% endblock %}

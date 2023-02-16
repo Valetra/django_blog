@@ -5,6 +5,8 @@
 {% block content %}
 
 <h2>{{ post.title }}</h2>
+<a href="{% url 'category' post.category %}">{{ post.category }}</a>
+<br/>
 <small>By: 
     {{ post.author.first_name }}
     {{ post.author.last_name }} - 
