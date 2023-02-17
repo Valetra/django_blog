@@ -2,28 +2,35 @@
 
 {% block content %}
 
-<h2>Articles</h2>
+  <h2>Articles</h2>
 
-<ul>
-{% for post in object_list %}
-  <li>
-    <a href="{% url 'article_detail' post.pk %}">{{ post.title }}</a> - 
-    <a href="{% url 'category' post.category|slugify %}">{{ post.category }}</a> - 
-    {{ post.author.first_name }}
-    {{ post.author.last_name }} - 
-    {{ post.post_date }}
-    <small>
-      {% if user.is_authenticated %}
-        - 
-        <a href="{% url 'update_post' post.pk %}">Edit</a> | 
-        <a href="{% url 'delete_post' post.pk %}">Delete</a>
-      {% endif %}
-    </small>
+  <ul>
+  {% for post in object_list %}
+    <li>
+      <a href="{% url 'article_detail' post.pk %}">{{ post.title }}</a> - 
+      <a href="{% url 'category' post.category|slugify %}">{{ post.category }}</a> - 
+      {{ post.author.first_name }}
+      {{ post.author.last_name }} - 
+      {{ post.post_date }}
+      <small>
+        {% if user.is_authenticated %}
+          - 
+          <a href="{% url 'update_post' post.pk %}">Edit</a> | 
+          <a href="{% url 'delete_post' post.pk %}">Delete</a>
+        {% endif %}
+      </small>
+      <br/>
+      {{ post.body|slice:"200"|safe }}
+    </li>
     <br/>
-    {{ post.body|slice:"200"|safe }}
-  </li>
-  <br/>
-{% endfor %}
-</ul>
+  {% endfor %}
+  </ul>
+<!--
+  {% for item in category_menu %}
+    {{item}}<br/>
+  {% endfor %}
+-->
+  
+  {{ category_posts }}<br/>
 
 {% endblock %}
