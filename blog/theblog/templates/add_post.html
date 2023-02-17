@@ -14,9 +14,17 @@
         <button class="btn btn-secondary">Create</button>
       </form>
     </div>
+  <script>
+    var name = '{{user.id}}';
+    document.getElementById('author').value = name;
+  </script>
+
+
   {% else %}
     You have no permission to create an article.<br/>
     You should <a href="{% url 'register' %}">register</a> or <a href="{% url 'login' %}">login</a> if you have an account.
+    You will be redirected to the home page in 3 secounds</p>
+    <meta http-equiv = "refresh" content = "3; url = /" />
   {% endif %}
 
 {% endblock %}
