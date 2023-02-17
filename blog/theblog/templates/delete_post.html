@@ -4,16 +4,22 @@
 
 {% block content %}
   {% if user.is_authenticated %}
-    <br/>
-    <h3>Delete: {{ post.title }}</h3>
-    <br/>
-    <div class="mb-3">
-      <form method="POST">
-        {% csrf_token %}
-        <strong>Are you sure?</strong><br/><br/>
-        <button class="btn btn-danger">Delete</button>
-      </form>
-    </div>
+    {% if user.id == post.author.id %} 
+      <br/>
+      <h3>Delete: {{ post.title }}</h3>
+      <br/>
+      <div class="mb-3">
+        <form method="POST">
+          {% csrf_token %}
+          <strong>Are you sure?</strong><br/><br/>
+          <button class="btn btn-danger">Delete</button>
+        </form>
+      </div>
+    {% else %}
+      This article is not yours, don`t be a bad guy, please<br/>
+      You will be redirected to the home page in 3 secounds</p>
+      <meta http-equiv = "refresh" content = "3; url = /" />
+    {% endif %}
   {% else %}
     You have no permission to delete this article.<br/>
     You should <a href="{% url 'register' %}">register</a> or <a href="{% url 'login' %}">login</a> if you have an account.

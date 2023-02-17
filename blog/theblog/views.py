@@ -36,7 +36,6 @@ def get_category_menu_context(self, view, *args, **kwargs):
 
 def CategoryView(request, category):
     category_menu = Category.objects.all()
-
     category_posts = Post.objects.filter(category=category.replace('-', ' '))
     return render(request, 'categories.html', {'category_menu': category_menu, 'category':category.title().replace('-', ' '), 'category_posts': category_posts})
 
