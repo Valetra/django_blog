@@ -22,6 +22,10 @@ class Post(models.Model):
     body = models.TextField()
     post_date = models.DateTimeField(auto_now_add=True)
     category = models.CharField(max_length=255, default='no category')
+    likes = models.ManyToManyField(User, related_name='theblog_posts')
+
+    def total_likes(self):
+        return self.likes.count()
 
     def __str__(self):
         return self.title + ' | ' + str(self.author)

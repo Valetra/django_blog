@@ -1,9 +1,10 @@
-from django.shortcuts import render
-from django.urls import reverse_lazy
+from django.shortcuts import render, get_object_or_404
+from django.urls import reverse_lazy, reverse
+from django.http import HttpResponseRedirect
 
 from django.views.generic import (
     ListView, 
-    DeleteView,
+    DetailView,
     CreateView,
     UpdateView,
     DeleteView,
@@ -34,8 +35,13 @@ def get_category_menu_context(self, view, *args, **kwargs):
         context['category_menu']= category_menu
         return context
 
+def LikeView(request, pk):
+    post = get_object_or_404(Post, id=request.POST.get('post_id'))
+    post.likes.add(request.user)
+    return HttpResponseRedirect(reverse('article_detail', args=[str(pk)]))
+
 def CategoryView(request, category):
-    category_menu = Category.objects.all()
+    category_menu  = Category.objects.all()
     category_posts = Post.objects.filter(category=category.replace('-', ' '))
     return render(request, 'categories.html', {'category_menu': category_menu, 'category':category.title().replace('-', ' '), 'category_posts': category_posts})
 
@@ -47,12 +53,19 @@ class HomeView(ListView):
     def get_context_data(self, *args, **kwargs):
         return get_category_menu_context(self, HomeView, *args, **kwargs)
         
-class ArticleDetailView(DeleteView):
+class ArticleDetailView(DetailView):
     model = Post
     template_name = 'article_details.html'
 
     def get_context_data(self, *args, **kwargs):
-        return get_category_menu_context(self, ArticleDetailView, *args, **kwargs)
+        category_menu = Category.objects.all()
+
+        post_obj = get_object_or_404(Post, id=self.kwargs['pk'])
+        total_likes = post_obj.total_likes()
+        context = super(ArticleDetailView, self).get_context_data(*args, **kwargs)
+        context['category_menu'] = category_menu
+        context['total_likes'] = total_likes
+        return context
 
 class AddPostView(CreateView):
     model = Post

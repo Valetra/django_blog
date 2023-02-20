@@ -9,7 +9,7 @@ from theblog.views import get_category_menu_context
 class UserRegisterView(generic.CreateView):
     form_class = UserCreationForm
     template_name = 'registration/register.html'
-    success_url = reverse_lazy('login')
+    success_url = reverse_lazy('my_login')
 
     def get_context_data(self, *args, **kwargs):
         return get_category_menu_context(self, UserRegisterView, *args, **kwargs)
