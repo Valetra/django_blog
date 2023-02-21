@@ -11,10 +11,10 @@ from django.views.generic import (
 )
 
 from .models import Post, Category
-from .forms import PostForm, EditForm
+from .forms import PostForm, EditForm, AddCategoryForm
 
 #TODO: include in the executable function in the future to remove unused categories. 
-def clear_category_list():
+def clear_category_list_if_needed():
     cat_posts = Post.objects.all()
     cat_menu = Category.objects.all()
 
@@ -31,6 +31,10 @@ def clear_category_list():
 def get_category_menu_context(self, view, *args, **kwargs):
         category_menu = Category.objects.all()
 
+        for item in category_menu:
+            item.name = item.name.lower().replace('-', ' ')
+            item.save()
+
         context = super(view, self).get_context_data(*args, **kwargs)
         context['category_menu']= category_menu
         return context
@@ -45,9 +49,15 @@ def LikeView(request, pk):
     return HttpResponseRedirect(reverse('article_detail', args=[str(pk)]))
 
 def CategoryView(request, category):
+    category = category.replace('-', ' ')
     category_menu  = Category.objects.all()
-    category_posts = Post.objects.filter(category=category.replace('-', ' '))
-    return render(request, 'categories.html', {'category_menu': category_menu, 'category':category.title().replace('-', ' '), 'category_posts': category_posts})
+    category_posts = Post.objects.filter(category=category)
+
+    for item in category_posts:
+            item.category = item.category.replace('-', ' ')
+            item.save()
+
+    return render(request, 'categories.html', {'category_menu': category_menu, 'category':category.replace('-', ' '), 'category_posts': category_posts})
 
 class HomeView(ListView):
     model = Post
@@ -63,7 +73,7 @@ class ArticleDetailView(DetailView):
 
     def get_context_data(self, *args, **kwargs):
         category_menu = Category.objects.all()
-
+        
         post_obj = get_object_or_404(Post, id=self.kwargs['pk'])
         total_likes = post_obj.total_likes()
 
@@ -72,6 +82,7 @@ class ArticleDetailView(DetailView):
             liked = True
 
         context = super(ArticleDetailView, self).get_context_data(*args, **kwargs)
+
         context['category_menu'] = category_menu
         context['total_likes'] = total_likes
         context['liked'] = liked
@@ -88,8 +99,8 @@ class AddPostView(CreateView):
 
 class AddCategoryView(CreateView):
     model = Category
+    form_class = AddCategoryForm
     template_name = 'add_category.html'
-    fields = '__all__'
 
     def get_context_data(self, *args, **kwargs):
         return get_category_menu_context(self, AddCategoryView, *args, **kwargs)
