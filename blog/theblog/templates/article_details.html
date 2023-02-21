@@ -21,16 +21,29 @@
 </small>
 <hr>
 <p>{{ post.body|safe }}</p>
-
 <br/>
 <a href="{% url 'home' %}" class="btn btn-dark">Back</a>
 <br/><br/>
-<hr>
-<form action="{% url 'like_post' post.pk %}" method="POST">
-  {% csrf_token %}
-  <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-primary btn-sm">
+{% if user.is_authenticated %}
+  <hr>
+  <form action="{% url 'like_post' post.pk %}" method="POST">
+    {% csrf_token %}    
+    {% if liked %}
+      <button type="submit" name="post_id" value="{{ post.id }}" class="btn btn-danger btn-sm">
+        Unlike
+      </button>
+    {% else %}
+      <button type="submit" name="post_id" value="{{ post.id }}" class="btn btn-primary btn-sm">
+        Like
+      </button>
+    {% endif %}
+  </form>
+{% else %}
+  <small>You must <a href="{% url 'my_login' %}">login</a> to like posts</small>
+  <br/><br/>
+  <button type="submit" name="post_id" value="{{ post.id }}" class="btn btn-outline-info" disabled>
     Like
   </button>
-  - {{ total_likes }} Likes
-</form>
+{% endif %}
+{{ total_likes }} likes
 {% endblock %}
