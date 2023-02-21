@@ -40,12 +40,6 @@
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'add_category' %}">Add Category</a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link disabled">Hello, {{ user.first_name }}</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'logout' %}">Logout</a>
-              </li>
             {% else %}
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'register' %}">Register</a>
@@ -55,6 +49,19 @@
               </li>
             {% endif %}              
           </ul>
+          {% if user.is_authenticated %}
+            <ul class="navbar-nav">
+              <span class="navbar-text">
+                <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+              </span>
+              <span class="navbar-text">
+                <a class="nav-link" href="{% url 'edit_profile' %}">Edit profile</a>
+              </span>
+              <span class="navbar-text">
+                <a class="nav-link disabled">Hello, {{ user.username }}</a>
+              </span>
+            </ul>
+          {% endif %}
           <!--  Back later
           <form class="d-flex" role="search">
           <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
