@@ -6,7 +6,6 @@
 
 <h2>{{ post.title }}</h2>
 <a href="{% url 'category' post.category %}">{{ post.category }}</a>
-<strong>I`m post.category: {{ post.category }}</strong>
 <br/>
 <small>By: 
     {{ post.author.first_name }}
@@ -21,6 +20,10 @@
     <br/>
 </small>
 <hr>
+{% if post.header_image %}
+  <img src='{{ post.header_image.url }}'>
+  <br/><br/>
+{% endif %}
 <p>{{ post.body|safe }}</p>
 <br/>
 <a href="{% url 'home' %}" class="btn btn-dark">Back</a>
