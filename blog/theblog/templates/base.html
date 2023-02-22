@@ -31,7 +31,7 @@
                     <li><a class="dropdown-item" href="{% url 'category' item|slugify %}">{{ item }}</a></li>
                   {% endfor %}
                 </ul>
-              </li>    
+              </li>
             {% endif %}
             {% if user.is_authenticated %}
               <li class="nav-item">
@@ -41,31 +41,33 @@
                 <a class="nav-link" href="{% url 'add_category' %}">Add Category</a>
               </li>
           </ul>
-          <ul class="navbar-nav flex-row flex-wrap ms-md-auto">
-                <li class="nav-item">
-                  <a class="nav-link" href="{% url 'logout' %}">Logout</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="{% url 'edit_profile' %}">Edit profile</a>
-                </li>
-                <li class="nav-item py-2 py-lg-1 col-12 col-lg-auto">
-                  <div class="vr d-none d-lg-flex h-100 mx-lg-2 text-white"></div>
-                  <hr class="d-lg-none my-2 text-white-50">
-                </li>          
-                <li class="nav-item">
-                  <a class="nav-link disabled">Hello, {{ user.username }}</a>
-                </li>
-          </ul>
+            <ul class="navbar-nav flex-row flex-wrap ms-md-auto">
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'edit_profile' %}">Edit profile</a>
+              </li>
+              <li class="nav-item py-2 py-lg-1 col-12 col-lg-auto">
+                <div class="vr d-none d-lg-flex h-100 mx-lg-2 text-white"></div>
+                <hr class="d-lg-none my-2 text-white-50">
+              </li>          
+              <li class="nav-item">
+                <a class="nav-link disabled">Hello, {{ user.username }}</a>
+              </li>
+            </ul>
             {% else %}
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          </ul>  
+          <ul class="navbar-nav flex-row flex-wrap ms-md-auto">
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'register' %}">Register</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'my_login' %}">Login</a>
               </li>
-            {% endif %}              
           </ul>
+            {% endif %}              
+          
           <!--  Back later
           <form class="d-flex" role="search">
           <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">

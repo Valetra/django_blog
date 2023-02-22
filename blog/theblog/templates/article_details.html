@@ -50,4 +50,32 @@
   </button>
 {% endif %}
 {{ total_likes }} likes
+<br/><br/>
+
+<div class="card mb-3">
+  <div class="row g-0">
+    {% if post.author.profile.profile_pic %}
+      <div class="col-md-2">
+        <img src="{{ post.author.profile.profile_pic.url}}" class="img-fluid rounded-start" alt="profile image">
+      </div>
+    {% endif %}
+    <div class="col-md-10">
+      <div class="card-body">
+        <h5 class="card-title">
+          {{ post.author.first_name }}
+          {{ post.author.last_name }}
+        </h5>
+        <p class="small text-muted">
+          {% if post.author.profile.website_url %}
+            <a href="{{ post.author.profile.website_url }}">Website |</a>
+          {% endif %}
+          {% if post.author.email %}
+            Email: {{ post.author.email }}
+          {% endif %}
+        </p>
+        <p class="card-text">{{ post.author.profile.bio }}</p>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}
