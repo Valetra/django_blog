@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Create profile page{% endblock %}
+
+{% block content %}
+
+  {% if user.is_authenticated %}
+    <h2>Create profile page</h2>
+    <br/>
+    <div class="mb-3">
+      <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="btn btn-secondary">Create profile page</button>
+      </form>
+    </div>
+
+  {% else %}
+    You have no permission to create a profile page.<br/>
+    You should <a href="{% url 'register' %}">register</a> or <a href="{% url 'login' %}">login</a> if you have an account.
+    You will be redirected to the home page in 3 secounds</p>
+    <meta http-equiv = "refresh" content = "3; url = /" />
+  {% endif %}
+
+{% endblock %}

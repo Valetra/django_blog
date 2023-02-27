@@ -2,6 +2,20 @@ from django.contrib.auth.forms import UserCreationForm, UserChangeForm, Password
 from django.contrib.auth.models import User
 from django import forms
 
+from theblog.models import Profile
+
+class ProfilePageForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ('bio', 'profile_pic', 'website_url', 'email')
+
+        widgets = {
+            'bio': forms.Textarea(attrs={'class': 'form-control'}),
+            #'profile_pic': forms.TextInput(attrs={'class': 'form-control'}),
+            'website_url': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+        }
+
 class SignUpForm(UserCreationForm):
     email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control'}))
     first_name = forms.CharField(max_length=50,widget=forms.TextInput(attrs={'class': 'form-control'}))
@@ -18,7 +32,7 @@ class SignUpForm(UserCreationForm):
         self.fields['password1'].widget.attrs['class'] = 'form-control'
         self.fields['password2'].widget.attrs['class'] = 'form-control'
 
-class EditProfileForm(UserChangeForm):
+class EditUserSettingsForm(UserChangeForm):
     email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control'}))
     first_name = forms.CharField(max_length=50,widget=forms.TextInput(attrs={'class': 'form-control'}))
     last_name = forms.CharField(max_length=50,widget=forms.TextInput(attrs={'class': 'form-control'}))

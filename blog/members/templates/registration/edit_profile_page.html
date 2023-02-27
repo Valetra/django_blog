@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit profile page{% endblock %}
+
+{% block content %}
+
+  {% if user.is_authenticated %}
+    {% if user.id == profile.user.id %}
+      <h2>Edit profile page</h2>
+      <br/>
+      <div class="mb-3">
+        <form method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <button class="btn btn-secondary">Update profile page</button>
+        </form>
+      </div>
+    {% else %}
+      You have no permission to update this profile.
+      <br/>
+      You will be redirected to the home page in 3 secounds
+      <meta http-equiv = "refresh" content = "3; url = /" />
+    {% endif %}
+  {% else %}
+    You have no permission to update a profile.<br/>
+    You should <a href="{% url 'register' %}">register</a> or <a href="{% url 'login' %}">login</a> if you have an account.
+    You will be redirected to the home page in 3 secounds
+    <meta http-equiv = "refresh" content = "3; url = /" />
+  {% endif %}
+
+{% endblock %}

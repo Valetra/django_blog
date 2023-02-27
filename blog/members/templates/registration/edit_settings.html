@@ -1,12 +1,11 @@
 {% extends 'base.html' %}
 
-{% block title %}Edit profile{% endblock %}
+{% block title %}Edit settings{% endblock %}
 
 {% block content %}
 
-<h2>Edit profile</h2>
+<h2>Edit settings</h2>
 <br/>
-{{user.profile.bio}}
 <div class="mb-3">
     <form method="POST">
         {% csrf_token %}

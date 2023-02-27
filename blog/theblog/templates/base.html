@@ -45,8 +45,19 @@
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'logout' %}">Logout</a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'edit_profile' %}">Edit profile</a>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Profile
+                </a>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="{% url 'edit_settings' %}">Edit settings</a></li>
+                  {% if user.profile.id %}
+                    <li><a class="dropdown-item" href="{% url 'show_profile_page' user.profile.id %}">Show profile page</a></li>
+                    <li><a class="dropdown-item" href="{% url 'edit_profile_page' user.profile.id %}">Edit profile page</a></li>
+                  {% else %}
+                    <li><a class="dropdown-item" href="{% url 'create_profile_page' %}">Create profile page</a></li>
+                  {% endif %}
+                </ul>
               </li>
               <li class="nav-item py-2 py-lg-1 col-12 col-lg-auto">
                 <div class="vr d-none d-lg-flex h-100 mx-lg-2 text-white"></div>

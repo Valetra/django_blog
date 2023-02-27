@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}User profile{% endblock %}
+
+{% block content %}
+
+  <h2>User profile</h2>
+  <br/>
+  <div class="card mb-3">
+    <div class="row g-0">
+      {% if page_user.profile_pic %}
+        <div class="col-md-2">
+          <img src="{{ page_user.profile_pic.url}}" class="img-fluid rounded-start" alt="profile image">
+        </div>
+      {% else %}
+      <div class="col-md-2">
+        <img src="{% static 'theblog/images/user-profile-default-image.png' %}" class="img-fluid rounded-start" alt="profile image">
+      </div>
+      {% endif %}
+      <div class="col-md-10">
+        <div class="card-body">
+          <h5 class="card-title">
+            {{ page_user.user.first_name }}
+            {{ page_user.user.last_name }}
+          </h5>
+          <p class="small text-muted">
+            {% if page_user.website_url %}
+              <a href="{{ page_user.website_url }}">Website</a>
+            {% endif %}
+            {% if page_user.email %}
+              | Email: {{ page_user.email }}
+            {% endif %}
+          </p>
+          <p class="card-text">{{ page_user.bio }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+{% endblock %}
