@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}{{ post.title_tag }}{% endblock %}
 
@@ -58,6 +59,10 @@
       <div class="col-md-2">
         <img src="{{ post.author.profile.profile_pic.url}}" class="img-fluid rounded-start" alt="profile image">
       </div>
+    {% else %}
+    <div class="col-md-2">
+      <img src="{% static 'theblog/images/user-profile-default-image.png' %}" class="img-fluid rounded-start" alt="profile image">
+    </div>
     {% endif %}
     <div class="col-md-10">
       <div class="card-body">
