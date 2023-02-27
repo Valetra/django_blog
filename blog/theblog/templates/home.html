@@ -8,7 +8,6 @@
   {% for post in object_list %}
     <li>
       <a href="{% url 'article_detail' post.pk %}">{{ post.title }}</a> - 
-      <a href="{% url 'category' post.category|slugify %}">{{ post.category }}</a> - 
       {{ post.author.first_name }}
       {{ post.author.last_name }} - 
       {{ post.post_date }}
@@ -27,12 +26,6 @@
     <br/>
   {% endfor %}
   </ul>
-<!--
-  {% for item in category_menu %}
-    {{item}}<br/>
-  {% endfor %}
--->
-  
-  {{ category_posts }}<br/>
+  <br/>
 
 {% endblock %}

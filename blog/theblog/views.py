@@ -10,34 +10,8 @@ from django.views.generic import (
     DeleteView,
 )
 
-from .models import Post, Category
-from .forms import PostForm, EditForm, AddCategoryForm
-
-#TODO: include in the executable function in the future to remove unused categories. 
-def clear_category_list_if_needed():
-    cat_posts = Post.objects.all()
-    cat_menu = Category.objects.all()
-
-    post_categories_list = []
-
-    for posts_item in cat_posts:
-        post_categories_list.append(posts_item.category) 
-    
-    for menu_item in cat_menu:
-        if str(menu_item) not in post_categories_list:
-            q = Category.objects.get(name=menu_item)
-            q.delete()
-
-def get_category_menu_context(self, view, *args, **kwargs):
-        category_menu = Category.objects.all()
-
-        for item in category_menu:
-            item.name = item.name.lower().replace('-', ' ')
-            item.save()
-
-        context = super(view, self).get_context_data(*args, **kwargs)
-        context['category_menu']= category_menu
-        return context
+from .models import Post
+from .forms import PostForm, EditForm
 
 def LikeView(request, pk):
     post = get_object_or_404(Post, id=request.POST.get('post_id'))
@@ -48,31 +22,16 @@ def LikeView(request, pk):
         post.likes.add(request.user)
     return HttpResponseRedirect(reverse('article_detail', args=[str(pk)]))
 
-def CategoryView(request, category):
-    category = category.replace('-', ' ')
-    category_menu  = Category.objects.all()
-    category_posts = Post.objects.filter(category=category)
-
-    for item in category_posts:
-            item.category = item.category.replace('-', ' ')
-            item.save()
-
-    return render(request, 'categories.html', {'category_menu': category_menu, 'category':category.replace('-', ' '), 'category_posts': category_posts})
-
 class HomeView(ListView):
     model = Post
     template_name = 'home.html'
     ordering = ['-post_date']
-
-    def get_context_data(self, *args, **kwargs):
-        return get_category_menu_context(self, HomeView, *args, **kwargs)
         
 class ArticleDetailView(DetailView):
     model = Post
     template_name = 'article_details.html'
 
     def get_context_data(self, *args, **kwargs):
-        category_menu = Category.objects.all()
         
         post_obj = get_object_or_404(Post, id=self.kwargs['pk'])
         total_likes = post_obj.total_likes()
@@ -83,7 +42,6 @@ class ArticleDetailView(DetailView):
 
         context = super(ArticleDetailView, self).get_context_data(*args, **kwargs)
 
-        context['category_menu'] = category_menu
         context['total_likes'] = total_likes
         context['liked'] = liked
 
@@ -94,29 +52,12 @@ class AddPostView(CreateView):
     form_class = PostForm
     template_name = 'add_post.html'
 
-    def get_context_data(self, *args, **kwargs):
-        return get_category_menu_context(self, AddPostView, *args, **kwargs)
-
-class AddCategoryView(CreateView):
-    model = Category
-    form_class = AddCategoryForm
-    template_name = 'add_category.html'
-
-    def get_context_data(self, *args, **kwargs):
-        return get_category_menu_context(self, AddCategoryView, *args, **kwargs)
-
 class UpdatePostView(UpdateView):
     model = Post
     form_class = EditForm
     template_name = 'update_post.html'
 
-    def get_context_data(self, *args, **kwargs):
-        return get_category_menu_context(self, UpdatePostView, *args, **kwargs)
-
 class DeletePostView(DeleteView):
     model = Post
     template_name = 'delete_post.html'
     success_url = reverse_lazy('home')
-
-    def get_context_data(self, *args, **kwargs):
-        return get_category_menu_context(self, DeletePostView, *args, **kwargs)

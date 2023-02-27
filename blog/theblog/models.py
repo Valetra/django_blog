@@ -4,18 +4,6 @@ from django.urls import reverse
 from datetime import datetime, date
 from ckeditor.fields import RichTextField
 
-class Category(models.Model):
-    name = models.CharField(max_length=255)
-
-    class Meta:
-        verbose_name_plural = 'Categories'
-
-    def __str__(self):
-        return self.name
-
-    def get_absolute_url(self):
-        return reverse('home')
-
 class Profile(models.Model):
     user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
     bio = models.TextField()
@@ -37,7 +25,6 @@ class Post(models.Model):
     body = RichTextField(blank=True, null=True)
     snippet = models.CharField(max_length=255)
     post_date = models.DateTimeField(auto_now_add=True)
-    category = models.CharField(max_length=255, default='no category')
     likes = models.ManyToManyField(User, related_name='theblog_posts')
 
     def total_likes(self):
