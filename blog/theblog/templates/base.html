@@ -27,30 +27,23 @@
               </li>
           </ul>
             <ul class="navbar-nav flex-row flex-wrap ms-md-auto">
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'logout' %}">Logout</a>
-              </li>
-              <li class="nav-item dropdown">
+              <li class="nav-item dropdown ">
                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Profile
+                  {{ user.first_name }}
+                  {{ user.last_name }}
                 </a>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu dropdown-menu-end">
                   <li><a class="dropdown-item" href="{% url 'edit_settings' %}">Edit settings</a></li>
                   {% if user.profile.id %}
                     <li><a class="dropdown-item" href="{% url 'show_profile_page' user.profile.id %}">Show profile page</a></li>
                     <li><a class="dropdown-item" href="{% url 'edit_profile_page' user.profile.id %}">Edit profile page</a></li>
+                    <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
                   {% else %}
                     <li><a class="dropdown-item" href="{% url 'create_profile_page' %}">Create profile page</a></li>
+                    <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
                   {% endif %}
                 </ul>
-              </li>
-              <li class="nav-item py-2 py-lg-1 col-12 col-lg-auto">
-                <div class="vr d-none d-lg-flex h-100 mx-lg-2 text-white"></div>
-                <hr class="d-lg-none my-2 text-white-50">
-              </li>          
-              <li class="nav-item">
-                <a class="nav-link disabled">Hello, {{ user.username }}</a>
-              </li>
+              </li>        
             </ul>
             {% else %}
           </ul>  
