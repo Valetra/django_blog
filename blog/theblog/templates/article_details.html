@@ -26,8 +26,6 @@
 {% endif %}
 <p>{{ post.body|safe }}</p>
 <br/>
-<a href="{% url 'home' %}" class="btn btn-dark">Back</a>
-<br/><br/>
 {% if user.is_authenticated %}
   <hr>
   <form action="{% url 'like_post' post.pk %}" method="POST">
@@ -51,7 +49,6 @@
 {% endif %}
 {{ total_likes }} likes
 <br/><br/>
-
 <div class="card mb-3">
   <div class="row g-0">
     {% if post.author.profile.profile_pic %}
@@ -71,7 +68,6 @@
         </h5>
         <p class="small text-muted">
           <a href="{% url 'show_profile_page' post.author.profile.id %}">Profile page</a> |
-          {% if post.author.profile.website_url %}
             <a href="{{ post.author.profile.website_url }}">Website</a> |
           {% endif %}
           {% if post.author.email %}
@@ -83,4 +79,23 @@
     </div>
   </div>
 </div>
+<br/>
+<h3>Comments:</h3>
+<br/>
+{% if not post.comments.all %}
+  <p>No comments yet</p>
+  <a href="{% url 'add_comment' post.pk %}"> Add one</a>
+{% else %}
+  <a href="{% url 'add_comment' post.pk %}">Add comment</a>
+  <br/><br/>
+  {% for comment in post.comments.all %}
+    <strong>
+      {{ comment.name }} -
+      {{ comment.date_added }}
+  </strong>
+  <br/>
+  {{ comment.body }}
+  <br/>
+  {% endfor %}
+{% endif %}
 {% endblock %}

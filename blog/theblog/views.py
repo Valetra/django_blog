@@ -10,8 +10,8 @@ from django.views.generic import (
     DeleteView,
 )
 
-from .models import Post
-from .forms import PostForm, EditForm
+from .models import Post, Comment
+from .forms import PostForm, EditForm, CommentForm
 
 def LikeView(request, pk):
     post = get_object_or_404(Post, id=request.POST.get('post_id'))
@@ -61,3 +61,13 @@ class DeletePostView(DeleteView):
     model = Post
     template_name = 'delete_post.html'
     success_url = reverse_lazy('home')
+
+class AddCommentView(CreateView):
+    model = Comment
+    form_class = CommentForm
+    template_name = 'add_comment.html'
+    ordering = ['-date_added']
+
+    def form_valid(self, form):
+        form.instance.post_id = self.kwargs['pk']
+        return super().form_valid(form)
