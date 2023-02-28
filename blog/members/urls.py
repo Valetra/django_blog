@@ -11,8 +11,6 @@ from .views import (
     CreateProfilePageView,
 )
 
-
-
 urlpatterns = [
     path('register/', UserRegisterView.as_view(), name='register'),
     path('edit_settings/', UserSettingsEditView.as_view(), name='edit_settings'),
