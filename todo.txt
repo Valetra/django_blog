@@ -1,4 +1,0 @@
-[ ] 1. Fix a bug with not displaying new categories on the pages of adding new articles and editing.
-[ ] 2. Include clear_category_list()  in the executable function to remove unused categories.
-          Choose the right place for this!
-[ ] 3. Do a NORMAL CATEGORY by ForgeinKey to Post !!!(https://docs.djangoproject.com/en/4.1/topics/db/examples/many_to_one/)
