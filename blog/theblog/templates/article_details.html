@@ -21,7 +21,7 @@
 </small>
 <hr>
 {% if post.header_image %}
-  <img src='{{ post.header_image.url }}'>
+  <img class="mw-100" src='{{ post.header_image.url }}'>
   <br/><br/>
 {% endif %}
 <p>{{ post.body|safe }}</p>
@@ -49,37 +49,40 @@
 {% endif %}
 {{ total_likes }} likes
 <br/><br/>
-<div class="card mb-3">
-  <div class="row g-0">
-    {% if post.author.profile.profile_pic %}
+{% if post.author.profile %}
+  <div class="card mb-3">
+    <div class="row g-0">
+      {% if post.author.profile.profile_pic %}
+        <div class="col-md-2">
+          <img src="{{ post.author.profile.profile_pic.url}}" class="img-fluid rounded-start" alt="profile image">
+        </div>
+      {% else %}
       <div class="col-md-2">
-        <img src="{{ post.author.profile.profile_pic.url}}" class="img-fluid rounded-start" alt="profile image">
+        <img src="{% static 'theblog/images/user-profile-default-image.png' %}" class="img-fluid rounded-start" alt="profile image">
       </div>
-    {% else %}
-    <div class="col-md-2">
-      <img src="{% static 'theblog/images/user-profile-default-image.png' %}" class="img-fluid rounded-start" alt="profile image">
-    </div>
-    {% endif %}
-    <div class="col-md-10">
-      <div class="card-body">
-        <h5 class="card-title">
-          {{ post.author.first_name }}
-          {{ post.author.last_name }}
-        </h5>
-        <p class="small text-muted">
-          <a href="{% url 'show_profile_page' post.author.profile.id %}">Profile page</a> |
-          {% if post.author.profile.website_url %}
-            <a href="{{ post.author.profile.website_url }}">Website</a> |
-          {% endif %}
-          {% if post.author.email %}
-            Email: {{ post.author.email }}
-          {% endif %}
-        </p>
-        <p class="card-text">{{ post.author.profile.bio }}</p>
+      {% endif %}
+      <div class="col-md-10">
+        <div class="card-body">
+          <h5 class="card-title">
+            {{ post.author.first_name }}
+            {{ post.author.last_name }}
+          </h5>
+            <p class="small text-muted">
+              <a href="{% url 'show_profile_page' post.author.profile.id %}">Profile page</a> |
+              {% if post.author.profile.website_url %}
+                <a href="{{ post.author.profile.website_url }}">Website</a> |
+              {% endif %}
+              {% if post.author.profile.email %}
+                Email: {{ post.author.profile.email }}
+              {% endif %}
+            </p>
+            <p class="card-text">{{ post.author.profile.bio }}</p>
+          
+        </div>
       </div>
     </div>
   </div>
-</div>
+{% endif %}
 <br/>
 <h3>Comments:</h3>
 <br/>
