@@ -1,1 +1,2 @@
 This is a blog project that I developed for educational purposes to study the Django framework.
+Using Bootstrap for style.
